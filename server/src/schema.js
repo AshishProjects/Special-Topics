@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server'
-import { find, remove } from 'lodash'
+import { find, remove, filter} from 'lodash'
 
 
 
@@ -103,35 +103,38 @@ const owners = [
     firstName: String
     lastName: String
   }
+
  type Car
  {
-  id: String,
-  year: String,
-  make: String,
-  model: String,
-  price: Interger,
+  id: String!
+  year: String
+  make: String
+  model: String
+  price: String
   ownerId: String
  }
 
   type Query {
     owners: [Owner]
-    cars: [Car]
+    cars(ownerId: String!): [Car]
   }
 
   type Mutation {
     addOwner(id: String!, firstName: String!, lastName: String!): Owner
     updateOwner(id: String!, firstName: String!, lastName: String!): Owner
     removeOwner(id: String!): Owner
-    addCar(id: String!, year: String!, make: String!, model: String1, price: Interger, ownerId: String!):Car
-    updateCar(id: String!, year: String!, make: String!, model: String1, price: Interger, ownerId: String!):Car
-    removeCar(id: String!):Car
+    addCar(id: String!, year: String!, make: String!, model: String!, price: String!, ownerId: String!): Car
+    updateCar(id: String!, year: String!, make: String!, model: String!, price: String!, ownerId: String!): Car
+    removeCar(id: String!): Car
   }
 `
 
 const resolvers = {
   Query: {
      owners: () => owners,
-     cars: ()=> cars
+     cars: (root, args) => {
+      return filter(cars, { ownerId: args.ownerId });
+     }
   },
   Mutation: {
     addOwner: (root, args) => {
@@ -163,7 +166,7 @@ const resolvers = {
     },
      
     addCar: (root, args) => {
-      const newOwner = {
+      const newCar = {
         id: args.id,
         year: args.year,
         make: args.make,
@@ -171,7 +174,7 @@ const resolvers = {
         price:args.price,
         ownerId:args.ownerId
       }
-      owners.push(newCar)
+      cars.push(newCar)
       return newCar
     },
     updateCar: (root, args) => {
@@ -179,7 +182,7 @@ const resolvers = {
       if (!car) {
         throw new Error(`Couldn't find car with id ${args.id}`)
       }
-        car.yearc=args.year,
+        car.year=args.year,
         car.make=args.make,
         car.model=args.model,
         car.price=args.price,
@@ -192,7 +195,7 @@ const resolvers = {
       if (!removeCar) {
         throw new Error(`Couldn't find car with id ${args.id}`)
       }
-      remove(owners, c => { return c.id === removeCar.id })
+      remove(cars, c => { return c.id === removeCar.id })
       return removeCar
     },
      

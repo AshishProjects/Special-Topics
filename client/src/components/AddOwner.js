@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo'
 
 import uuidv4 from 'uuid/v4'
 
-import { ADD_OWNERS, GET_OWNERS } from '../queries'
+import { ADD_OWNER, GET_OWNER } from '../queries'
 
 import { Button, TextField} from '@material-ui/core'
 // import { border } from '@material-ui/system';
@@ -19,11 +19,11 @@ class AddOwner extends Component {
     const id = uuidv4()
     return (
       <Mutation
-        mutation={ADD_OWNERS}
+        mutation={ADD_OWNER}
         update={(store, { data: { addOwner } }) => {
-          const { owners } = store.readQuery({ query: GET_OWNERS })
+          const { owners } = store.readQuery({ query: GET_OWNER })
           store.writeQuery({
-            query: GET_OWNERS,
+            query: GET_OWNER,
             data: { owners: owners.concat([addOwner])}
           })
         }}

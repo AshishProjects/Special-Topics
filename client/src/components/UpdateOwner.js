@@ -1,7 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 
-import { UPDATE_OWNERS } from '../queries'
+import { UPDATE_OWNER } from '../queries'
 
 import { Button, TextField } from '@material-ui/core'
 
@@ -11,13 +11,14 @@ const UpdateOwner = (props) => {
   console.log(firstName, lastName)
   return (
     <Mutation
-      mutation={UPDATE_OWNERS}
+      mutation={UPDATE_OWNER}
       key={id}
     >
       {(updateOwner, { loading, error }) => (
         <form onSubmit={e => {
           e.preventDefault()
           updateOwner({ variables: { id, firstName, lastName }})
+          onButtonClick()
         }}>
           <TextField
             defaultValue={firstName}

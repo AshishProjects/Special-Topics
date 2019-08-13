@@ -1,31 +1,31 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import { Button } from '@material-ui/core'
-import { GET_OWNERS, REMOVE_OWNERS } from '../queries'
+import { GET_OWNER, REMOVE_OWNER } from '../queries'
 import { filter } from 'lodash'
 
-const RemoveOwners = ({ id, firstName, lastName }) => {
+const RemoveOwner = ({ id, firstName, lastName }) => {
   return (
     <Mutation
-      mutation={REMOVE_OWNERS}
-      update={(store, { data: { removeOwners } }) => {
-        const { owners } = store.readQuery({ query: GET_OWNERS })
+      mutation={REMOVE_OWNER}
+      update={(store, { data: { removeOwner } }) => {
+        const { owners } = store.readQuery({ query: GET_OWNER })
         store.writeQuery({
-          query: GET_OWNERS,
-          data: { owners: filter(owners, c => { return c.id !== removeOwners.id }) }
+          query: GET_OWNER,
+          data: { owners: filter(owners, c => { return c.id !== removeOwner.id }) }
         })
       }}
     >
-      {removeOwners => (
+      {removeOwner => (
         <Button onClick={e => {
           e.preventDefault()
-          removeOwners({
+          removeOwner({
             variables: {
               id
             },
             optimisticResponse: {
               __typename: 'Mutation',
-              removeOwners: {
+              removeOwner: {
                 __typename: 'Owner',
                 id,
                 firstName,
@@ -45,4 +45,4 @@ const RemoveOwners = ({ id, firstName, lastName }) => {
   )
 }
 
-export default RemoveOwners
+export default RemoveOwner

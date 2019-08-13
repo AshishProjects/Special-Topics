@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost'
 
-export const GET_OWNERS = gql`
+export const GET_OWNER = gql`
   {
     owners {
       id
@@ -10,7 +10,7 @@ export const GET_OWNERS = gql`
   }
 `
 
-export const ADD_OWNERS = gql`
+export const ADD_OWNER = gql`
   mutation AddOwner($id: String!, $firstName: String!, $lastName: String!) {
     addOwner(id: $id, firstName: $firstName, lastName: $lastName) {
       id
@@ -20,7 +20,7 @@ export const ADD_OWNERS = gql`
   }
 `
 
-export const UPDATE_OWNERS = gql`
+export const UPDATE_OWNER = gql`
   mutation UpdateOwner($id: String!, $firstName: String!, $lastName: String!) {
     updateOwner(id: $id, firstName: $firstName, lastName: $lastName) {
       id
@@ -30,12 +30,62 @@ export const UPDATE_OWNERS = gql`
   }
 `
 
-export const REMOVE_OWNERS = gql`
+export const REMOVE_OWNER = gql`
   mutation RemoveOwner($id: String!) {
     removeOwner(id: $id) {
       id
       firstName
       lastName
+    }
+  }
+`
+export const GET_CAR= gql`
+  query cars($ownerId: String!) {
+    cars(ownerId: $ownerId) {
+      id
+      year
+      make
+      model
+      price
+      ownerId
+    }
+  }
+`
+export const ADD_CAR = gql`
+  mutation addCar($id: String!, $year: String!, $make: String!, $model: String1, $price: String!, $ownerId: String!) 
+  {
+    addCar(id: $id, year: $year, make: $make, model: $model, price: $price, ownerId: $ownerId)  {
+      id
+      year
+      make
+      model
+      price
+      ownerId
+    }
+  }
+`
+export const UPDATE_CAR = gql`
+  mutation UpdateCar($id: String!, $year: String!, $make: String!, $model: String1, $price: Interger, $ownerId: String!) 
+  {
+    updateCar(id: $id, year: $year, make: $make, model: $model, price: $price, ownerId: $ownerId) {
+      id
+      year
+      make
+      model
+      price
+      ownerId
+    }
+  }
+`
+export const REMOVE_CAR = gql`
+  mutation RemoveCar($id: String!) {
+    removeCar(id: $id) {
+      id
+      year
+      make
+      model
+      price
+      ownerId
     }
   }
 `
